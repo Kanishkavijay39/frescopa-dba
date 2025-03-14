@@ -3,7 +3,6 @@ import {
 } from '@dropins/tools/preact.js';
 import htm from '../../scripts/htm.js';
 import ProductList from './ProductList.js';
-import FacetList from './FacetList.js';
 import { readBlockConfig, sampleRUM } from '../../scripts/aem.js';
 import { priceFieldsFragment, performCatalogServiceQuery } from '../../scripts/commerce.js';
 
@@ -72,6 +71,7 @@ export const productSearchQuery = (addCategory = false) => `query ProductSearch(
           productView {
               name
               sku
+              shortDescription
               urlKey
               images(roles: "thumbnail") {
                 url
@@ -457,12 +457,8 @@ class ProductListPage extends Component {
   };
 
   async componentDidMount() {
-    if (window.loadCategoryPromise) {
-      const state = await window.loadCategoryPromise;
-      await this.loadState(state);
-    } else {
-      await this.loadProducts();
-    }
+
+    await this.loadProducts();
 
     // Special optimization for mobile
     if ('IntersectionObserver' in window && isMobile && this.state.products.items.length === 6 && this.state.products.total > 6) {
@@ -536,12 +532,6 @@ class ProductListPage extends Component {
     const { type = 'category' } = props;
 
     return html`<${Fragment}>
-    <${FacetList} 
-      facets=${state.facets}
-      filters=${state.filters}
-      facetMenuRef=${this.facetMenuRef}
-      onFilterChange=${this.handleFilterChange.bind(this)}
-      loading=${state.loading} />
     <div class="products">
       <div class="title">
         <h1>${state.category.name}</h1>
