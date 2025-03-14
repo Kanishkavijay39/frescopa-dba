@@ -1,8 +1,5 @@
 mountpoints:
-  /:
-    url: "https://author-p130360-e1272151.adobeaemcloud.com/bin/franklin.delivery/adobe-rnd/aem-boilerplate-xcom/main"
-    type: "markup"
-    suffix: ".html"
+  /: https://adobe.sharepoint.com/sites/Summit2023ContentDemo/Shared%20Documents/sites/frescopa
 folders:
   /products/: /products/default
   
