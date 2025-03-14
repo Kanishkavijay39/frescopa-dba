@@ -31,7 +31,6 @@ import '../../scripts/initializers/cart.js';
 export default async function decorate(block) {
   // eslint-disable-next-line no-underscore-dangle
   const product = events._lastEvent?.['pdp/data']?.payload ?? null;
-
   const labels = await fetchPlaceholders();
 
   // Layout
@@ -100,7 +99,6 @@ export default async function decorate(block) {
       gap: 'small',
       loop: false,
       imageParams: {
-        ...IMAGES_SIZES,
       },
     })($galleryMobile),
 
@@ -112,7 +110,6 @@ export default async function decorate(block) {
       gap: 'small',
       loop: false,
       imageParams: {
-        ...IMAGES_SIZES,
       },
     })($gallery),
 
