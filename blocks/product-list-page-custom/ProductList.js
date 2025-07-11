@@ -43,7 +43,7 @@ class ProductCard extends Component {
     return html`<picture>
       <source type="image/webp" srcset="${url} 1x,${url} 2x, ${url} 3x" media="(max-width: 900px)" />
       <source type="image/webp" srcset="${url} 1x, ${url} 2x, ${url} 3x" />
-      <img class="product-image-photo" src="${url}" alt=${product.name} loading=${loading} />
+      <img class="product-image-photo" src="${url}" max-width="330" max-height="396" alt=${product.name} loading=${loading} />
     </picture>`;
   }
 

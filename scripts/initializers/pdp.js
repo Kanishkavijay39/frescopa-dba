@@ -79,7 +79,7 @@ async function preloadImageMiddleware(data) {
       params: {
         ...IMAGES_SIZES,
       },
-      loading: 'lazy',
+      loading: 'eager',
     })(document.createElement('div'));
   }
   return data;
