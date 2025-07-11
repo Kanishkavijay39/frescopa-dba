@@ -156,14 +156,16 @@
   --frescopa--color-black: #2C2C2C;
 }
 
-/* fallback fonts - removed size-adjust optimization */
+/* fallback fonts */
 @font-face {
   font-family: roboto-condensed-fallback;
+  size-adjust: 88.82%;
   src: local('Arial');
 }
 
 @font-face {
   font-family: roboto-fallback;
+  size-adjust: 99.529%;
   src: local('Arial');
 }
 

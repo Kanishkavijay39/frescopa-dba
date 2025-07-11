@@ -324,7 +324,7 @@ function createOptimizedPicture(
       picture.appendChild(source);
     } else {
       const img = document.createElement('img');
-      img.setAttribute('loading', 'lazy');
+      img.setAttribute('loading', eager ? 'eager' : 'lazy');
       img.setAttribute('alt', alt);
       picture.appendChild(img);
       img.setAttribute('src', `${pathname}?width=${br.width}&format=${ext}&optimize=medium`);
@@ -683,7 +683,7 @@ async function waitForFirstImage(section) {
   const lcpCandidate = section.querySelector('img');
   await new Promise((resolve) => {
     if (lcpCandidate && !lcpCandidate.complete) {
-      lcpCandidate.setAttribute('loading', 'lazy');
+      lcpCandidate.setAttribute('loading', 'eager');
       lcpCandidate.addEventListener('load', resolve);
       lcpCandidate.addEventListener('error', resolve);
     } else {
