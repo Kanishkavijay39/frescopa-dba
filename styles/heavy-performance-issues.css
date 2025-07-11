@@ -1,0 +1,226 @@
+/* Heavy CSS file to degrade performance and worsen CWV scores */
+
+/* Complex selector chains that force style recalculation */
+div:nth-child(odd) > p:first-child ~ span:last-of-type + a[href*="product"] {
+  color: #ff0000;
+  transition: all 0.3s ease-in-out;
+  animation: heavyAnimation 2s infinite;
+}
+
+div:nth-child(even) > p:first-child ~ span:last-of-type + a[href*="product"] {
+  color: #00ff00;
+  transition: all 0.3s ease-in-out;
+  animation: heavyAnimation 2s infinite reverse;
+}
+
+/* Expensive animations that cause layout thrashing */
+@keyframes heavyAnimation {
+  0% { 
+    transform: translateX(0px) scale(1) rotate(0deg);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+  }
+  25% { 
+    transform: translateX(10px) scale(1.1) rotate(90deg);
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    width: 110%;
+  }
+  50% { 
+    transform: translateX(20px) scale(1.2) rotate(180deg);
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    width: 120%;
+  }
+  75% { 
+    transform: translateX(10px) scale(1.1) rotate(270deg);
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    width: 110%;
+  }
+  100% { 
+    transform: translateX(0px) scale(1) rotate(360deg);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+  }
+}
+
+/* Complex pseudo-selectors that are expensive to calculate */
+*:nth-child(3n+1):not(.excluded):hover:before {
+  content: "Expensive pseudo-element";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff);
+  animation: heavyAnimation 1s infinite;
+}
+
+*:nth-child(3n+2):not(.excluded):hover:after {
+  content: "Another expensive pseudo-element";
+  position: absolute;
+  bottom: -20px;
+  right: 50%;
+  transform: translateX(50%);
+  background: linear-gradient(135deg, #ff00ff, #ffff00, #00ffff);
+  animation: heavyAnimation 1s infinite reverse;
+}
+
+/* Expensive universal selectors */
+* {
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+*:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Complex descendant selectors */
+div div div div div div div div div div {
+  background: linear-gradient(45deg, transparent, rgba(255,0,0,0.1), transparent);
+  animation: heavyAnimation 3s infinite;
+}
+
+/* Expensive attribute selectors */
+[class*="product"]:not([class*="excluded"]):hover:focus:active {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  filter: blur(0.5px) brightness(1.1) contrast(1.1);
+  animation: heavyAnimation 1.5s infinite;
+}
+
+/* Complex media queries with expensive selectors */
+@media (max-width: 1200px) {
+  div:nth-child(odd) > p:first-child ~ span:last-of-type + a[href*="product"]:hover {
+    animation: heavyAnimation 1s infinite;
+    filter: blur(1px) brightness(1.2);
+  }
+}
+
+@media (max-width: 900px) {
+  div:nth-child(even) > p:first-child ~ span:last-of-type + a[href*="product"]:hover {
+    animation: heavyAnimation 1s infinite reverse;
+    filter: blur(1px) contrast(1.2);
+  }
+}
+
+/* Expensive gradient animations */
+.gradient-animation {
+  background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ffff00, #00ffff, #ff0000);
+  background-size: 400% 400%;
+  animation: gradientShift 2s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Heavy box-shadow animations */
+.heavy-shadow {
+  box-shadow: 
+    0 0 10px rgba(255,0,0,0.5),
+    0 0 20px rgba(0,255,0,0.5),
+    0 0 30px rgba(0,0,255,0.5),
+    inset 0 0 10px rgba(255,255,0,0.5),
+    inset 0 0 20px rgba(255,0,255,0.5),
+    inset 0 0 30px rgba(0,255,255,0.5);
+  animation: shadowPulse 1s infinite;
+}
+
+@keyframes shadowPulse {
+  0% { 
+    box-shadow: 
+      0 0 10px rgba(255,0,0,0.5),
+      0 0 20px rgba(0,255,0,0.5),
+      0 0 30px rgba(0,0,255,0.5),
+      inset 0 0 10px rgba(255,255,0,0.5),
+      inset 0 0 20px rgba(255,0,255,0.5),
+      inset 0 0 30px rgba(0,255,255,0.5);
+  }
+  50% { 
+    box-shadow: 
+      0 0 20px rgba(255,0,0,0.8),
+      0 0 40px rgba(0,255,0,0.8),
+      0 0 60px rgba(0,0,255,0.8),
+      inset 0 0 20px rgba(255,255,0,0.8),
+      inset 0 0 40px rgba(255,0,255,0.8),
+      inset 0 0 60px rgba(0,255,255,0.8);
+  }
+  100% { 
+    box-shadow: 
+      0 0 10px rgba(255,0,0,0.5),
+      0 0 20px rgba(0,255,0,0.5),
+      0 0 30px rgba(0,0,255,0.5),
+      inset 0 0 10px rgba(255,255,0,0.5),
+      inset 0 0 20px rgba(255,0,255,0.5),
+      inset 0 0 30px rgba(0,255,255,0.5);
+  }
+}
+
+/* Apply heavy styles to common elements */
+img, picture, video, canvas, svg {
+  animation: heavyAnimation 3s infinite;
+  transition: all 0.5s ease;
+}
+
+img:hover, picture:hover, video:hover, canvas:hover, svg:hover {
+  transform: scale(1.05) rotate(2deg);
+  filter: blur(0.5px) brightness(1.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Heavy form styles */
+input, textarea, select, button {
+  transition: all 0.3s ease;
+  animation: heavyAnimation 2s infinite;
+}
+
+input:focus, textarea:focus, select:focus, button:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0,100,255,0.5);
+  filter: brightness(1.1);
+}
+
+/* Expensive text effects */
+h1, h2, h3, h4, h5, h6 {
+  text-shadow: 
+    1px 1px 0 #ff0000,
+    2px 2px 0 #00ff00,
+    3px 3px 0 #0000ff,
+    4px 4px 0 #ff00ff,
+    5px 5px 0 #ffff00,
+    6px 6px 0 #00ffff;
+  animation: textGlow 2s infinite;
+}
+
+@keyframes textGlow {
+  0% { 
+    text-shadow: 
+      1px 1px 0 #ff0000,
+      2px 2px 0 #00ff00,
+      3px 3px 0 #0000ff,
+      4px 4px 0 #ff00ff,
+      5px 5px 0 #ffff00,
+      6px 6px 0 #00ffff;
+  }
+  50% { 
+    text-shadow: 
+      2px 2px 0 #ff0000,
+      4px 4px 0 #00ff00,
+      6px 6px 0 #0000ff,
+      8px 8px 0 #ff00ff,
+      10px 10px 0 #ffff00,
+      12px 12px 0 #00ffff;
+  }
+  100% { 
+    text-shadow: 
+      1px 1px 0 #ff0000,
+      2px 2px 0 #00ff00,
+      3px 3px 0 #0000ff,
+      4px 4px 0 #ff00ff,
+      5px 5px 0 #ffff00,
+      6px 6px 0 #00ffff;
+  }
+} 

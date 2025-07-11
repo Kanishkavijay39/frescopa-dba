@@ -112,6 +112,22 @@ export function moveInstrumentation(from, to) {
  */
 async function loadFonts() {
   await loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
+  
+  // Intentionally heavy operation to block rendering
+  const heavyArray = new Array(1000000).fill(0);
+  const processedArray = heavyArray.map((item, index) => {
+    return Math.random() * index * Math.sin(index) * Math.cos(index);
+  });
+  
+  // Simulate complex DOM operations
+  for (let i = 0; i < 1000; i++) {
+    const div = document.createElement('div');
+    div.innerHTML = `<span>Heavy operation ${i}</span>`;
+    div.style.display = 'none';
+    document.body.appendChild(div);
+    document.body.removeChild(div);
+  }
+  
   try {
     if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
   } catch (e) {
@@ -294,9 +310,14 @@ async function loadEager(doc) {
   events.emit('eds/lcp', true);
 
   try {
-    /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
-    if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-      loadFonts();
+    /* Always load fonts synchronously to block rendering */
+    await loadFonts();
+    
+    // Add additional blocking operations
+    const blockingStartTime = Date.now();
+    while (Date.now() - blockingStartTime < 500) {
+      // Block for 500ms
+      Math.random() * Math.random();
     }
   } catch (e) {
     // do nothing
@@ -316,6 +337,27 @@ async function loadLazy(doc) {
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
+
+  // Add heavy blocking operations during lazy loading
+  const blockingArray = new Array(300000).fill(0);
+  blockingArray.forEach((_, index) => {
+    Math.random() * Math.sin(index) * Math.cos(index);
+  });
+  
+  // Add event listeners that block interactions
+  document.addEventListener('scroll', function() {
+    const scrollBlockStart = Date.now();
+    while (Date.now() - scrollBlockStart < 50) {
+      Math.random();
+    }
+  });
+  
+  document.addEventListener('keydown', function() {
+    const keyBlockStart = Date.now();
+    while (Date.now() - keyBlockStart < 100) {
+      Math.random();
+    }
+  });
 
   await Promise.all([
     loadHeader(doc.querySelector('header')),
