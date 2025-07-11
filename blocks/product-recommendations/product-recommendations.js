@@ -57,7 +57,7 @@ function renderPlaceholder(block) {
     <div class="product-grid">
       ${[...Array(5)].map(() => `
         <div class="placeholder">
-          <picture><img width="300" height="375" src="" /></picture>
+          <picture><img src="" /></picture>
         </div>
       `).join('')}
     </div>
@@ -102,7 +102,7 @@ function renderItem(unitId, product) {
     <a href="/products/${product.urlKey}/${product.sku}">
       <picture>
         <source type="image/webp" srcset="${image}?width=300&format=webply&optimize=medium" />
-        <img loading="lazy" alt="Image of ${product.name}" width="300" height="375" src="${image}?width=300&format=jpg&optimize=medium" />
+        <img loading="lazy" alt="Image of ${product.name}" src="${image}?width=300&format=jpg&optimize=medium" />
       </picture>
       <span>${product.name}</span>
     </a>
