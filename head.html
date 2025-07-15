@@ -34,7 +34,7 @@
   // Light JavaScript for CWV Issue #4 - INP degradation
   window.addEventListener('load', function() {
     setTimeout(() => {
-      // Light periodic operation
+      // Light periodic operation - keep for CWV testing
       function lightOperation() {
         const start = Date.now();
         const arr = new Array(5000).fill(0);
@@ -47,13 +47,13 @@
     }, 3000); // Wait 3 seconds after load
   });
   
-  // Light interaction delay
-  document.addEventListener('click', function(e) {
-    const blockStart = Date.now();
-    while (Date.now() - blockStart < 30) {
-      Math.random(); // 30ms delay on clicks
-    }
-  });
+  // REMOVED: 30ms click delay blocks critical page interactions
+  // document.addEventListener('click', function(e) {
+  //   const blockStart = Date.now();
+  //   while (Date.now() - blockStart < 30) {
+  //     Math.random(); // 30ms delay on clicks
+  //   }
+  // });
 </script>
 
 <link rel="preload" href="/placeholders.json" as="fetch" crossorigin="anonymous" />
