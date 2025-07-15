@@ -683,7 +683,7 @@ async function waitForFirstImage(section) {
   const lcpCandidate = section.querySelector('img');
   await new Promise((resolve) => {
     if (lcpCandidate && !lcpCandidate.complete) {
-      lcpCandidate.setAttribute('loading', 'lazy'); // Change to lazy - CWV Issue #1
+      lcpCandidate.setAttribute('loading', 'eager'); // Restore eager for LCP candidates
       lcpCandidate.addEventListener('load', resolve);
       lcpCandidate.addEventListener('error', resolve);
     } else {
