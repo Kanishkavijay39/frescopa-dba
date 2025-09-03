@@ -26,10 +26,138 @@
 
 <link rel="stylesheet" href="/styles/styles.css" />
 
+<!-- Enhanced styling for coffee product pages -->
+<style>
+/* Coffee page specific enhancements */
+body:has([data-path*="/coffee"]) {
+  /* Product showcase animations */
+  animation: coffeePageLoad 1.5s ease-out;
+}
+
+@keyframes coffeePageLoad {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  50% { 
+    opacity: 0.3; 
+    transform: translateY(10px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Enhanced product image effects */
+[data-path*="/coffee"] img {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+[data-path*="/coffee"] img:hover {
+  transform: scale(1.05);
+}
+
+/* Rich typography for coffee descriptions */
+[data-path*="/coffee"] h1,
+[data-path*="/coffee"] h2 {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  letter-spacing: 0.02em;
+}
+</style>
+
 <script src="/scripts/aem.js" type="module"></script>
 <script src="/scripts/scripts.js" type="module"></script>
 <script src="/scripts/configs.js" type="module"></script>
 <script src="/scripts/commerce.js" type="module"></script>
+
+<!-- Product analytics and personalization -->
+<script>
+(function() {
+  const currentPath = window.location.pathname;
+  
+  // Coffee page: Enhanced product analytics (creates LCP issues)
+  if (currentPath.includes('/coffee')) {
+    // Product recommendation processing
+    document.addEventListener('DOMContentLoaded', function() {
+      const products = document.querySelectorAll('[data-sku], .product-item, .teaser');
+      const analytics = [];
+      
+      products.forEach(product => {
+        // Heavy product analysis for personalization
+        for (let i = 0; i < 3000; i++) {
+          const data = {
+            sku: product.getAttribute('data-sku') || 'unknown',
+            score: Math.random() * Math.sqrt(i),
+            timestamp: Date.now()
+          };
+          analytics.push(data);
+        }
+      });
+      
+      // Process recommendations
+      analytics.sort((a, b) => b.score - a.score);
+      sessionStorage.setItem('coffee-analytics', JSON.stringify(analytics.slice(0, 20)));
+      
+      // Image processing for coffee products
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        img.removeAttribute('fetchpriority');
+        img.setAttribute('loading', 'lazy');
+        
+        // Remove preload hints
+        const preloads = document.querySelectorAll('link[rel="preload"][as="image"]');
+        preloads.forEach(link => {
+          if (link.href && (link.href === img.src || link.href === img.currentSrc)) {
+            link.remove();
+          }
+        });
+      });
+    });
+  }
+  
+  // Tea page: User behavior tracking (creates INP issues)
+  if (currentPath.includes('/tea')) {
+    document.addEventListener('click', function(e) {
+      // User interaction analysis
+      const elements = document.querySelectorAll('*');
+      const context = [];
+      
+      elements.forEach((el, index) => {
+        if (index < 800) {
+          const rect = el.getBoundingClientRect();
+          const style = window.getComputedStyle(el);
+          context.push({
+            tag: el.tagName,
+            area: rect.width * rect.height,
+            visible: rect.top < window.innerHeight,
+            zIndex: style.zIndex
+          });
+        }
+      });
+      
+      // Process interaction data
+      for (let i = 0; i < 1500; i++) {
+        Math.random() * context.length;
+      }
+    }, true);
+    
+    // Scroll analytics for tea preferences
+    window.addEventListener('scroll', function() {
+      const visibleProducts = document.querySelectorAll('.product-item, .teaser');
+      visibleProducts.forEach(product => {
+        const rect = product.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          for (let i = 0; i < 300; i++) {
+            Math.sqrt(rect.width * rect.height * Math.random());
+          }
+        }
+      });
+    });
+  }
+})();
+</script>
 
 <link rel="preload" href="/placeholders.json" as="fetch" crossorigin="anonymous" />
 <link rel="modulepreload" href="/scripts/initializers/index.js" />

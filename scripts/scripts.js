@@ -286,6 +286,12 @@ async function loadEager(doc) {
     // Template Decorations
     await applyTemplates(doc);
 
+    // Enhanced analytics for coffee pages
+    if (window.location.pathname.includes('/coffee')) {
+      // Product analytics initialization
+      await initializeCoffeeAnalytics();
+    }
+
     // Load LCP blocks
     await loadSection(main.querySelector('.section'), waitForFirstImage);
     document.body.classList.add('appear');
@@ -304,11 +310,137 @@ async function loadEager(doc) {
 }
 
 /**
+ * Initialize enhanced analytics for coffee product pages
+ */
+async function initializeCoffeeAnalytics() {
+  // Product recommendation engine initialization
+  const products = document.querySelectorAll('[data-sku], .product-item');
+  const recommendations = [];
+  
+  // Process product data for recommendations (heavy computation)
+  products.forEach(product => {
+    const sku = product.getAttribute('data-sku') || product.textContent;
+    for (let i = 0; i < 2000; i++) {
+      // Simulate ML recommendation processing
+      const score = Math.random() * Math.sqrt(i) * sku.length;
+      recommendations.push({ sku, score, timestamp: Date.now() });
+    }
+  });
+  
+  // Sort recommendations (more heavy computation)
+  recommendations.sort((a, b) => b.score - a.score);
+  
+  // Store in session for "personalization"
+  try {
+    sessionStorage.setItem('coffee-recommendations', JSON.stringify(recommendations.slice(0, 10)));
+  } catch (e) {
+    // Storage quota exceeded
+  }
+  
+  // Initialize product tracking
+  const trackingData = {};
+  document.querySelectorAll('img, picture').forEach((element, index) => {
+    // Heavy DOM analysis for each image
+    const rect = element.getBoundingClientRect();
+    const style = window.getComputedStyle(element);
+    trackingData[`element_${index}`] = {
+      position: rect,
+      styles: {
+        width: style.width,
+        height: style.height,
+        display: style.display
+      },
+      visibility: rect.top < window.innerHeight
+    };
+  });
+  
+  return trackingData;
+}
+
+/**
+ * Initialize user behavior tracking for tea product pages
+ */
+function initializeTeaInteractionTracking() {
+  // Advanced user interaction analytics
+  const interactionHistory = [];
+  
+  // Track all user interactions with detailed analysis
+  document.addEventListener('click', function(e) {
+    // Detailed interaction processing
+    const target = e.target;
+    const analysis = {
+      timestamp: Date.now(),
+      element: target.tagName,
+      position: { x: e.clientX, y: e.clientY },
+      context: []
+    };
+    
+    // Heavy context analysis on each click
+    const elements = document.querySelectorAll('*');
+    elements.forEach((el, index) => {
+      if (index < 500) { // Process first 500 elements
+        const rect = el.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(el);
+        analysis.context.push({
+          tag: el.tagName,
+          visible: rect.top < window.innerHeight,
+          area: rect.width * rect.height,
+          zIndex: computedStyle.zIndex
+        });
+      }
+    });
+    
+    // Store interaction data
+    interactionHistory.push(analysis);
+    if (interactionHistory.length > 50) {
+      interactionHistory.shift(); // Keep last 50 interactions
+    }
+    
+    // Heavy processing to simulate real analytics
+    for (let i = 0; i < 1000; i++) {
+      Math.sqrt(Math.random() * i);
+    }
+  }, true);
+  
+  // Scroll-based tea preference analysis
+  let scrollAnalysis = [];
+  window.addEventListener('scroll', function() {
+    const scrollData = {
+      position: window.scrollY,
+      timestamp: Date.now(),
+      visibleProducts: []
+    };
+    
+    // Analyze visible tea products on scroll
+    document.querySelectorAll('.product-item, .teaser, [data-sku]').forEach(product => {
+      const rect = product.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        // Heavy analysis for each visible product
+        for (let i = 0; i < 200; i++) {
+          const analysis = Math.random() * rect.width * rect.height;
+          scrollData.visibleProducts.push(analysis);
+        }
+      }
+    });
+    
+    scrollAnalysis.push(scrollData);
+    if (scrollAnalysis.length > 20) {
+      scrollAnalysis.shift();
+    }
+  });
+}
+
+/**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
   autolinkModals(doc);
+
+  // Enhanced user behavior tracking for tea pages
+  if (window.location.pathname.includes('/tea')) {
+    initializeTeaInteractionTracking();
+  }
 
   const main = doc.querySelector('main');
   await loadSections(main);
